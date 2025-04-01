@@ -51,5 +51,10 @@ app.post("/hdfcWebhook", async (req, res) => {
     }
 
 })
+app.get('/servercheck',async (req,res)=>{
+res.status(200).json({
+    message: "Server is active."
+})
+})
 
 app.listen(3004);

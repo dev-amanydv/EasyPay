@@ -5,6 +5,7 @@ import { Select } from "@repo/ui/select";
 import { useState } from "react";
 import { TextInput } from "@repo/ui/textinput";
 import { createOnRampTransaction } from "../app/lib/actions/createOnRampTransaction";
+import toast from "react-hot-toast";
 
 const SUPPORTED_BANKS = [{
     name: "HDFC Bank",
@@ -15,7 +16,7 @@ const SUPPORTED_BANKS = [{
 }];
 
 export const AddMoney = () => {
-    const [redirectUrl, setRedirectUrl] = useState(SUPPORTED_BANKS[0]?.redirectUrl);
+   // const [redirectUrl, setRedirectUrl] = useState(SUPPORTED_BANKS[0]?.redirectUrl);
     const [provider, setProvider] = useState(SUPPORTED_BANKS[0]?.name || "");
     const [value, setValue] = useState(0)
     return <Card title="Add Money">
@@ -27,7 +28,7 @@ export const AddMoney = () => {
             Bank
         </div>
         <Select onSelect={(value) => {
-            setRedirectUrl(SUPPORTED_BANKS.find(x => x.name === value)?.redirectUrl || "");
+       //     setRedirectUrl(SUPPORTED_BANKS.find(x => x.name === value)?.redirectUrl || "");
             setProvider(SUPPORTED_BANKS.find(x => x.name === value)?.name || "");
         }} options={SUPPORTED_BANKS.map(x => ({
             key: x.name,
@@ -35,8 +36,13 @@ export const AddMoney = () => {
         }))} />
         <div className="flex justify-center pt-4">
             <Button onClick={async () => {
-                await createOnRampTransaction(provider, value)
-                window.location.href = redirectUrl || "";
+                  const res = await createOnRampTransaction(provider, value);
+                  if (!res.success) {
+                      toast.error(res.message);
+                      return;
+                  }
+                  toast.success(res.message);
+  //              window.location.href = redirectUrl || "";
             }}>
             Add Money
             </Button>

@@ -13,7 +13,7 @@ export const SidebarItem = ({ href, title, icon }: { href: string; title: string
         <div className="pr-2">
             {icon}
         </div>
-        <div className={`font-bold ${selected ? "text-[#6a51a6]" : "text-slate-500"}`}>
+        <div className={`font-bold hidden ${selected ? "text-[#6a51a6]" : "text-slate-500"} sm:inline-block `}>
             {title}
         </div>
     </div>

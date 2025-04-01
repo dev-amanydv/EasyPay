@@ -3,16 +3,20 @@
 import prisma from "@repo/db/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
+import axios, { AxiosError } from "axios";
 
 export async function createOnRampTransaction(provider: string, amount: number) {
-    // Ideally the token should come from the banking provider (hdfc/axis)
+    try {
+         // Ideally the token should come from the banking provider (hdfc/axis)
     const session = await getServerSession(authOptions);
     if (!session?.user || !session.user?.id) {
-        return {
-            message: "Unauthenticated request"
-        }
+        throw new Error("Authentication failed.")
+    }
+    if (amount == 0){
+        throw new Error("Enter an amount")
     }
     const token = (Math.random() * 1000).toString();
+    
     await prisma.onRampTransaction.create({
         data: {
             provider,
@@ -23,8 +27,26 @@ export async function createOnRampTransaction(provider: string, amount: number) 
             amount: amount * 100
         }
     });
-
-    return {
-        message: "Done"
+    try {
+        const response = await axios.post('http://localhost:3004/hdfcWebhook', {
+            token: token,
+            user_identifier: session.user.id,
+            amount: amount * 100
+        });
+        console.log("token:", token, "amount: ", amount * 100);
+        console.log(response.data);
+    } catch (error) {
+        const axiosError = error as AxiosError;
+        console.error('Error in hdfcWebhook server:', axiosError.response?.data || axiosError.message);
+       throw new Error("Bank server is down")
     }
+
+    return { success: true, message: "Money added successfully" };
+
+        
+    } catch (error:any) {
+        console.log("Error in createOnRampTransaction.tsx: ", error);
+        return { success: false, message: error.message };
+    }
+   
 }

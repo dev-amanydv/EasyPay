@@ -2,11 +2,11 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import prisma from "@repo/db/client";
-import { useState } from "react";
 
 export async function p2pTransfer(to: string, amount: number) {
     try {
         const session = await getServerSession(authOptions);
+        console.log(session)
         const from = session?.user?.id;
         if (!from) {
             throw new Error("Authentication failed");
@@ -20,7 +20,13 @@ export async function p2pTransfer(to: string, amount: number) {
     
         if (!toUser) {
             throw new Error("No user found for this number.");
-        }
+        };
+        console.log("from number:", session.user.email);
+        console.log("to number: ", toUser.number);
+        if(toUser.number == session.user.email){
+            throw new Error("sender's and reciever's number can't be same");
+        };
+        console.log("Checking :", toUser.number == session.user.email);
         await prisma.$transaction(async (tx) => {
             await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(from)} FOR UPDATE`;
     
