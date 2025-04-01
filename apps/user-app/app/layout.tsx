@@ -22,7 +22,7 @@ export default function RootLayout({
       <Providers>
         <body className={inter.className}>
           <Toaster position="top-center" reverseOrder={true} />
-          <div className="min-w-screen min-h-screen bg-[#ebe6e6]">
+          <div className="min-w-screen min-h-screen bg-gray-100">
             <AppbarClient />
             {children}
           </div>

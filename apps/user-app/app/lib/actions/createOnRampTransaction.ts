@@ -33,11 +33,9 @@ export async function createOnRampTransaction(provider: string, amount: number) 
             user_identifier: session.user.id,
             amount: amount * 100
         });
-        console.log("token:", token, "amount: ", amount * 100);
-        console.log(response.data);
+
     } catch (error) {
         const axiosError = error as AxiosError;
-        console.error('Error in hdfcWebhook server:', axiosError.response?.data || axiosError.message);
        throw new Error("Bank server is down")
     }
 
@@ -45,7 +43,6 @@ export async function createOnRampTransaction(provider: string, amount: number) 
 
         
     } catch (error:any) {
-        console.log("Error in createOnRampTransaction.tsx: ", error);
         return { success: false, message: error.message };
     }
    

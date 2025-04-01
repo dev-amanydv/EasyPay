@@ -42,7 +42,8 @@ export const AddMoney = () => {
                       return;
                   }
                   toast.success(res.message);
-  //              window.location.href = redirectUrl || "";
+        //     window.location.href = redirectUrl || "";
+                window.location.reload();
             }}>
             Add Money
             </Button>
