@@ -14,7 +14,7 @@ export const Appbar = ({
     onSignin,
     onSignout
 }: AppbarProps) => {
-    return <div className="flex justify-between border-b px-4 border-slate-300 sticky top-0 left-0 z-100 bg-white shadow-md">
+    return <div className="fixed w-full flex justify-between border-b px-4 border-slate-300 top-0 left-0 z-50 bg-white shadow-md">
         <div className="text-xl flex font-bold flex-col justify-center ml-3 text-blue-900">
         <Image src="/logo.png" alt="logo" height={120} width={120} />
         </div>

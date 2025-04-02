@@ -11,7 +11,7 @@ async function getBalance (){
      };
      const balance = await prisma.balance.findFirst({
          where:{
-             userId: Number(session.user.id)
+           userId: Number(session.user.id),
          }
      });
      return {
@@ -49,18 +49,18 @@ export default async function () {
         </div>
       </div>
       <div className="py-10 px-2 sm:px-10 ">
-            <div className="rounded-lg shadow-lg  bg-white py-5 px-5 flex justify-between ">
+            <div className="rounded-lg shadow-lg  bg-blue-900 py-5 px-5 flex justify-between ">
                 <div>
-                    <div className="text-lg sm:text-xl font-semibold text-gray-800">
+                    <div className="text-lg sm:text-xl font-semibold text-gray-300">
                         Wallet Balance
                     </div>
-                    <div className="text-2xl sm:text-3xl flex gap-1 items-center font-bold pt-3">
+                    <div className="text-2xl sm:text-3xl flex gap-1 text-gray-200 items-center font-bold pt-3">
                         <div className="font-light">
                         &#8377;
                         </div>
                     {balance.amount / 100}
                     </div>
-                    <div className="pt-1 text-sm sm:text-md font-normal">
+                    <div className="pt-1 text-sm text-gray-400 sm:text-md font-normal">
                         Updated: {timestamp}
                     </div>
                 </div>

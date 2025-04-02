@@ -24,7 +24,10 @@ export default function RootLayout({
           <Toaster position="top-center" reverseOrder={true} />
           <div className="min-w-screen min-h-screen bg-gray-100">
             <AppbarClient />
+            <div className="mt-[57px]">
             {children}
+            </div>
+            
           </div>
         </body>
       </Providers>
